@@ -41,7 +41,7 @@ Hardening the system against modern threats.
 * **Hardware Security (TPM):** Utilizing the **Trusted Platform Module**.
 * **Data Integrity:**
     * **BitLocker:** Full Disk Encryption (FDE).
-    * **VSS (Volume Shadow Copy):** System snapshots for recovery.
+    * **VSS (Volume Shadow Copy):** System snapshots for recovery.  
     * *Security Note:* Monitoring for `vssadmin` abuse by ransomware.
 
 ---
@@ -66,18 +66,10 @@ Hardening the system against modern threats.
 
 ---
 
-## 🎯 Attacker Perspective
-
-* Misconfigured services in `msconfig` can allow persistence  
-* Registry "Run" keys are common for malware auto-start  
-* Shadow Copies can be abused or deleted by ransomware  
-
----
-
 ## 📌 Conclusion
 
-This lab strengthened my understanding of Windows internals, system monitoring, and defensive security mechanisms.
+This lab strengthened my understanding of Windows internals, system monitoring, and defensive security mechanisms. It also improved my ability to analyze system behavior from a cybersecurity perspective.
 
 ---
 
-> **Cyber Tip:** Always verify the digital signatures of processes in Task Manager. If a process name looks legit (like `lsass.exe`) but isn't located in `C:\Windows\System32`, it's likely a masquerading threat.
+> **Cyber Tip:** Always verify the digital signatures of processes in Task Manager. If a process name looks legitimate (like `lsass.exe`) but isn't located in `C:\Windows\System32`, it's likely a masquerading threat.
