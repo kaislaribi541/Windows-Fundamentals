@@ -1,75 +1,98 @@
-# 🛡️ Windows Fundamentals Mastery - Lab Notes
+# 🛡️ Windows Fundamentals & Active Directory - Lab Notes
 
-This repository contains my technical documentation and key takeaways from the **Windows Fundamentals** series on TryHackMe. As a cybersecurity learner, understanding the Windows OS architecture, registry, and security mechanisms is critical for threat hunting and incident response.
+This repository contains my technical documentation and key takeaways from the **Windows Fundamentals** and **Active Directory** series on TryHackMe. As a cybersecurity learner, understanding Windows internals and domain environments is critical for threat hunting and incident response.
 
 ---
 
 ## 🏗️ Part 1: OS Architecture & Core Management
+
 Focuses on the user-facing side of Windows and basic administration.
 
-* **File System & Permissions:** Deep dive into `NTFS` permissions and the `System32` directory.
-* **Process Management:** Utilizing **Task Manager** (`taskmgr.exe`) to monitor PID, CPU, and RAM consumption.
-* **Control Center:** Navigation through **Control Panel** and **Settings** for user account management (UAC).
-* **Shortcut of the Day:** `Ctrl + Shift + Esc` (Instant Task Manager).
+* **File System & Permissions:** Deep dive into `NTFS` permissions and the `System32` directory.  
+* **Process Management:** Using **Task Manager** (`taskmgr.exe`) to monitor PID, CPU, and RAM.  
+* **Control Center:** Navigating **Control Panel** and **Settings** (UAC).  
+* **Shortcut:** `Ctrl + Shift + Esc` (Instant Task Manager).  
 
 ---
 
 ## ⚙️ Part 2: System Configuration & Internals
-Moving from the GUI to the engine room of the Operating System.
 
-* **System Configuration (`msconfig`):** Managing boot options and system services.
+Moving from GUI to system internals.
+
+* **System Configuration (`msconfig`):** Managing boot and services  
 * **Computer Management (`compmgmt.msc`):**
-    * **Task Scheduler:** Auditing automated tasks (e.g., `npcapwatchdog`).
-    * **Event Viewer:** Analyzing logs for security audits (Event IDs).
-    * **Shared Folders:** Identifying hidden administrative shares (e.g., `C$`, `ADMIN$`).
-* **The Registry (`regedit`):**
-    * Understanding Hives: `HKLM` (System-wide) & `HKCU` (User-specific).
-    * **Persistence Hunting:** Checking "Run" keys for unauthorized startup applications.
-* **Resource Monitor (`resmon`):** Advanced analysis of Network TCP connections and Disk I/O.
-* **System Information (`msinfo32`):** Detailed hardware and Environment Variable auditing (e.g., `ComSpec`, `Path`).
+  - Task Scheduler → audit automated tasks  
+  - Event Viewer → analyze logs (Event IDs)  
+  - Shared Folders → identify admin shares (`C$`, `ADMIN$`)  
+
+* **Registry (`regedit`):**
+  - Hives: `HKLM` & `HKCU`  
+  - Persistence: checking **Run keys**
+
+* **Resource Monitor (`resmon`)** → network + disk analysis  
+* **System Info (`msinfo32`)** → hardware + env variables  
 
 ---
 
 ## 🛡️ Part 3: Security & Data Protection
-Hardening the system against modern threats.
 
-* **Patch Management:** Managing **Windows Updates** and the "Patch Tuesday" cycle.
-* **Windows Security (Defender):**
-    * **Real-time Protection:** The frontline against malware execution.
-    * **Firewall Profiles:** `Domain`, `Private`, and `Public`.
-    * **Exploit Protection:** Implementing `ASLR` and `DEP` to mitigate memory-based attacks.
-* **Hardware Security (TPM):** Utilizing the **Trusted Platform Module**.
-* **Data Integrity:**
-    * **BitLocker:** Full Disk Encryption (FDE).
-    * **VSS (Volume Shadow Copy):** System snapshots for recovery.  
-    * *Security Note:* Monitoring for `vssadmin` abuse by ransomware.
+* **Patch Management:** Windows Updates / Patch Tuesday  
+* **Windows Defender:**
+  - Real-time protection  
+  - Firewall profiles (Domain / Private / Public)  
+  - Exploit Protection (`ASLR`, `DEP`)  
+
+* **TPM:** Hardware-based security  
+* **Data Protection:**
+  - BitLocker (FDE)  
+  - VSS snapshots  
+  - ⚠️ Monitor `vssadmin` abuse (ransomware)
+
+---
+
+## 🏛️ Part 4: Active Directory & Domain Administration
+
+* **AD Structure:** Forests → Trees → Domains  
+* **Objects & OUs:** Organizing users & machines  
+* **GPOs:**
+  - Restrict Control Panel  
+  - Enforce password policies  
+  - Auto-lock screens  
+
+* **Authentication:**
+  - Kerberos (secure, ticket-based)  
+  - NetNTLM (legacy, weaker)  
+
+* **Delegation:** Applying Least Privilege  
 
 ---
 
 ## 🛠️ Tools & Commands Summary
 
-| Utility | Command | Purpose |
-| :--- | :--- | :--- |
-| **Registry Editor** | `regedit.exe` | Edit system configuration database |
-| **Resource Monitor** | `resmon.exe` | Real-time CPU/Net/Disk/RAM tracking |
-| **System Info** | `msinfo32.exe` | Hardware/software summary |
-| **Firewall** | `wf.msc` | Advanced firewall management |
-| **IP Config** | `ipconfig /all` | Network configuration |
-| **UAC Settings** | `UserAccountControlSettings.exe` | Manage UAC |
+| Tool | Command | Purpose |
+|------|--------|--------|
+| Registry Editor | `regedit.exe` | System configuration |
+| Resource Monitor | `resmon.exe` | System monitoring |
+| Firewall | `wf.msc` | Firewall rules |
+| AD Users | `dsa.msc` | Manage users/OUs |
+| GPO Manager | `gpmc.msc` | Manage policies |
+| GPO Update | `gpupdate /force` | Apply policies |
 
 ---
 
 ## 🧪 Practical Notes
 
-* Used `ipconfig /all` to identify local IP and gateway  
-* Checked Event Viewer logs for failed login attempts  
+* Used `ipconfig /all` to identify IP and gateway  
+* Configured delegation on an OU  
+* Reset password using PowerShell (`Set-ADAccountPassword`)  
+* Verified GPOs using `gpresult /r`  
 
 ---
 
 ## 📌 Conclusion
 
-This lab strengthened my understanding of Windows internals, system monitoring, and defensive security mechanisms. It also improved my ability to analyze system behavior from a cybersecurity perspective.
+This lab strengthened my understanding of Windows internals, system monitoring, and enterprise-level administration. Working with Active Directory and GPOs provided insight into how organizations secure infrastructure and detect privilege escalation or lateral movement.
 
 ---
 
-> **Cyber Tip:** Always verify the digital signatures of processes in Task Manager. If a process name looks legitimate (like `lsass.exe`) but isn't located in `C:\Windows\System32`, it's likely a masquerading threat.
+> **Cyber Tip:** Always verify process paths and signatures. If a process like `lsass.exe` is not in `C:\Windows\System32`, it is likely malicious.
